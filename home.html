@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            margin: 20px;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .timer {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Home Page</h1>
+    <p>Your generated key:</p>
+    <div id="keyDisplay"></div>
+    <div class="timer" id="timerDisplay"></div>
+
+    <button class="button" onclick="redirectToLogin()">Go to Login Page</button>
+</div>
+
+<script>
+    // Check if key is stored in localStorage
+    const key = localStorage.getItem('generatedKey');
+    if (key) {
+        document.getElementById("keyDisplay").innerText = `Your Key: ${key}`;
+    } else {
+        document.getElementById("keyDisplay").innerText = 'No key found!';
+    }
+
+    // Timer logic: start countdown from stored time (using setInterval for persistent timer)
+    const startTime = localStorage.getItem('startTime');
+    let remainingTime = startTime ? parseInt(startTime) : Date.now();
+
+    function updateTimer() {
+        const currentTime = Date.now();
+        const timeLeft = remainingTime + 60000 - currentTime;  // Set a 1-minute timer for demo
+
+        if (timeLeft > 0) {
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            document.getElementById("timerDisplay").innerText = `Time Left: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            document.getElementById("timerDisplay").innerText = "Time's up!";
+        }
+    }
+
+    // Save start time when page loads
+    if (!startTime) {
+        localStorage.setItem('startTime', Date.now());
+    }
+
+    setInterval(updateTimer, 1000);
+
+    function redirectToLogin() {
+        window.location.href = 'login.html';
+    }
+</script>
+
+</body>
+</html>
