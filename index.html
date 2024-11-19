@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Key</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            margin: 20px;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .key-output {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Generate Unique Key</h1>
+    <label for="time">Select Time Duration (in minutes):</label><br>
+    <input type="number" id="time" min="1" placeholder="Minutes" /><br><br>
+    <button class="button" onclick="generateKey()">Generate Key</button>
+    
+    <div class="key-output" id="keyOutput"></div>
+</div>
+
+<script>
+    function generateKey() {
+        const time = document.getElementById('time').value;
+        if (!time || time < 1) {
+            alert("Please enter a valid time.");
+            return;
+        }
+        
+        // Generate unique key (can add more complexity if needed)
+        const key = 'KEY-' + Math.random().toString(36).substring(2, 15);
+        
+        // Save key and expiration time in localStorage
+        const expirationTime = Date.now() + (parseInt(time) * 60 * 1000); // Expiry in milliseconds
+        
+        localStorage.setItem('userKey', key);
+        localStorage.setItem('expirationTime', expirationTime);
+        
+        document.getElementById("keyOutput").innerText = `Your Unique Key: ${key}`;
+    }
+</script>
+
+</body>
+</html>
